@@ -17,11 +17,24 @@ private DepartmentRepositorry DeptRepo;
 public boolean isAddDepartment(Department department) {
 	return DeptRepo.isAddDepartment(department);
 }
-public Department getDepartmentById(Integer id) {
-	return DeptRepo.getDepartmentById(id);
+public List<Department> getAllDepartments() {
+	// TODO Auto-generated method stub
+	return DeptRepo.getAllDepartments();
+}
+
+public boolean deleteDepartmentById(int id) {
+	
+	return DeptRepo.deleteDepartmentById(id);
+}
+
+
+public boolean isUpdate(Department department) {
+    return DeptRepo.isUpdate(department);
+}
+public Department getDepartmentById(Integer did) {
+	
+	return DeptRepo.getDepartmentById(did);
 
 }
-public boolean isUpdate(Department department) {
-	return DeptRepo.isUpdate(department);
-}
+
 }

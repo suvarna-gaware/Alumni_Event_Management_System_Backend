@@ -13,7 +13,7 @@ public class AlumniService {
 	@Autowired
 	private AlumniRepository alumniRepo;
 	
-	public boolean isAddNewEmployee(Alumni alumni) {
+	public boolean isAddNewAlumni(Alumni alumni) {
 		return alumniRepo.isAddNewAlumni(alumni) ;
 		
 	}

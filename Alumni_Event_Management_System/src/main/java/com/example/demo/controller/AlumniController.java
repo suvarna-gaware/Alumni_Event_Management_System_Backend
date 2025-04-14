@@ -21,7 +21,7 @@ public class AlumniController {
 	
 	@PostMapping("/createAlumni")
 	public String createAlumni(@RequestBody Alumni alumni) {
-		 boolean b=alumService.isAddNewEmployee(alumni);
+		 boolean b=alumService.isAddNewAlumni(alumni);
 		 if(b) {
 			 return "Alumni Added";
 		 }
