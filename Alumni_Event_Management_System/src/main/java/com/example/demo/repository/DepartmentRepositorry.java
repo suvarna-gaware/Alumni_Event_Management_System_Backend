@@ -32,51 +32,67 @@ public class DepartmentRepositorry {
 
         return value > 0;
     }
-    public List<Department>getDeptname(){
-    	list=jdbcTemplate.query("select*from Department",new RowMapper<Department>() {
+    public List<Department> getAllDepartments() {
+        List<Department> list = jdbcTemplate.query("SELECT * FROM Department", new RowMapper<Department>() {
+
             @Override
             public Department mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Department department = new Department();
-                department.setDid(rs.getInt(1)); 
-                department.setDeptname(rs.getString(2));
-                return department;
+                Department dept = new Department();
+                dept.setDid(rs.getInt(1));         
+                dept.setDeptname(rs.getString(2));
+                return dept;
             }
+
         });
         return list;
     }
 
-    public Department getDepartmentById(Integer Did) {
+    public List<Department> searchDepartmentsByName(String deptname) {
         
-        List<Department> list = jdbcTemplate.query(
-        		"select * from Department where Did = ?",
-            new Object[] { Did },
-            new RowMapper<Department>() {
-                @Override
-                public Department mapRow(ResultSet rs, int rowNum) throws SQLException {
-                    Department dept = new Department();
-                    dept.setDid(rs.getInt(1));
-                    dept.setDeptname(rs.getString(2));
-                    return dept;
-                }
+    	System.out.println("name : "+deptname);
+        String sql = "SELECT * FROM Department WHERE TRIM(deptname) like ?";
+        
+        return jdbcTemplate.query(
+            sql,
+            new Object[] {"%" + deptname.trim() + "%"},  
+            (rs, rowNum) -> {
+                Department dept = new Department();
+                dept.setDid(rs.getInt(1));
+                dept.setDeptname(rs.getString(2));
+                return dept;
             }
         );
-
-        return list.isEmpty() ? null : list.get(0);
     }
 
 
-    public boolean isUpdate(Department department) {
-    	
-        int value = jdbcTemplate.update("update department set deptname = ? where Did = ?;", new PreparedStatementSetter() {
+    
+    public boolean deleteDepartmentById(int id) {
+		int value = jdbcTemplate.update("DELETE FROM department WHERE Did = ?", new PreparedStatementSetter() {
+	        @Override
+	        public void setValues(PreparedStatement ps) throws SQLException {
+	            ps.setInt(1, id);
+	        }
+	    });
+	    return value > 0;
+	
+		
+		
+	}
+	
 
+
+    public boolean isUpdate(Department department) {
+        String sql = "UPDATE department SET deptname = ? WHERE Did = ?";
+
+        int rows = jdbcTemplate.update(sql, new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
-                               ps.setString(1, department.getDeptname());   
-                               ps.setInt(2, department.getDid()); 
-
+                ps.setString(1, department.getDeptname());
+                ps.setInt(2, department.getDid());
             }
         });
-        return value > 0 ? true : false;
+
+        return rows > 0?true:false;
     }
 
 }

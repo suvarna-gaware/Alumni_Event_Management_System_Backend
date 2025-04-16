@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,7 @@ import com.example.demo.model.Department;
 import com.example.demo.service.DepartmentService;
 
 @RestController
+@CrossOrigin(origins="*")
 public class DepartmentController {
 
     @Autowired 
@@ -31,39 +34,52 @@ public class DepartmentController {
         return b ? "Department Added" : "Department not Added";
     }
 
-    @GetMapping("/getDeparment") 
-    public Department getDepartment() {
-        return new Department(1, "CSE");
-    }
+    	@GetMapping("/getDepartments")
+    	public List<Department> getAllDepartments() {
+    	    List<Department> list = DeptService.getAllDepartments();
+    	    if (list.size() != 0) {
+    	        return list;
+    	    } else {
+    	        throw new DepartmentNotFoundException("There are no departments in the database");
+    	    }
+    	}
 
 
 
-	@GetMapping("/searchDepartmentiById/{Did}")
-	public Department SearchDepartmenById(@PathVariable("Did") Integer Did) {
-		
-		
-		Department dept= DeptService.getDepartmentById(Did);
-		
-		if (dept != null) {
-			return dept;
-		} else {
-			throw new DepartmentNotFoundException("Department not found using ID: " + Did);
-		}
-	}
-	@PutMapping("/updateDepartment")
-	public String isupdateDepartment(@RequestBody  Department department) {
-		System.out.println(department);
-		boolean b=DeptService.isUpdate(department);
-		if(b) {
-			return "Department Record update with id"+department;
-		}
-		else {
-			throw new DepartmentNotFoundException("Department not Found using id"+department.getDeptname());
-			
-		}
-		
-		
-	}
+
+    	@GetMapping("/searchDepartmentByName/{deptname}")
+    	public List<Department> searchDepartmentByName(@PathVariable("deptname") String deptname) {
+    	    List<Department> departments = DeptService.searchDepartmentsByName(deptname);
+    	    
+    	    if (departments != null && !departments.isEmpty()) {
+    	        return departments;
+    	    } else {
+    	        throw new DepartmentNotFoundException("Department not found with name: " + deptname);
+    	    }
+    	}
+
+	 @DeleteMapping("/deleteDepartment/{id}")
+	    public String deleteDepartment(@PathVariable int id) {
+	        boolean isDeleted = DeptService.deleteDepartmentById(id);
+	        if (isDeleted) {
+	            return "Department deleted successfully.";
+	        } else {
+	            return "Department not found or already deleted.";
+	        }
+	    }
+	
+	 @PutMapping("/updateDepartment")
+	    public String updateDepartment(@RequestBody Department department) {
+	        System.out.println("Updating department: " + department);
+
+	        boolean updated = DeptService.isUpdate(department);
+
+	        if (updated) {
+	            return "Department updated successfully with ID: " + department.getDid();
+	        } else {
+	            throw new DepartmentNotFoundException("Department not found with ID: " + department.getDid());
+	        }
+	    }
 
 }
 

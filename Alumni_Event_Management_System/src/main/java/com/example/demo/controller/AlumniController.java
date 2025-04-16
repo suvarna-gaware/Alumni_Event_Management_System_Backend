@@ -21,7 +21,7 @@ public class AlumniController {
 	
 	@PostMapping("/createAlumni")
 	public String createAlumni(@RequestBody Alumni alumni) {
-		 boolean b=alumService.isAddNewEmployee(alumni);
+		 boolean b=alumService.isAddNewAlumni(alumni);
 		 if(b) {
 			 return "Alumni Added";
 		 }
@@ -43,15 +43,15 @@ public class AlumniController {
 		}	
 		
 	}
-	@GetMapping("/searchAlumniById/{Aid}")
-	public Alumni SearchAlumniById(@PathVariable("Aid") Integer id) {
-		Alumni al=alumService.getAlumniById(id);
+	@GetMapping("/searchAlumniByName/{name}")
+	public Alumni SearchAlumniByName(@PathVariable("name") String name) {
+		Alumni al=alumService.getAlumniByName(name);
 		if(al!=null) {
 			return al;
 			
 		}
 		else {
-			throw new AlumniNotFoundException("Employee not found using"+id);
+			throw new AlumniNotFoundException("Employee not found using"+name);
 		}	
 	    
 	}
