@@ -55,6 +55,16 @@ public class EventController {
 			throw new EventNotFoundException("Event not found using ID: " + id);
 		}
 	}
+	@GetMapping("/searchEventByName/{name}")
+	public Event searchEventByName(@PathVariable("name") String name) {
+	    Event event = eventService.getEventByName(name);
+	    if (event != null) {
+	        return event;
+	    } else {
+	        throw new EventNotFoundException("Event not found with name: " + name);
+	    }
+	}
+
 
 	@PutMapping("/updateEvent/{id}")
 	public String updateEvent(@PathVariable int id, @RequestBody Event event) {

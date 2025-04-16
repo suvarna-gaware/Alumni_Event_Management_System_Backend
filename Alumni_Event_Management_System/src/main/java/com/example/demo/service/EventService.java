@@ -38,4 +38,8 @@ public class EventService {
 		
 		return eventRepo.deleteEventById(id);
 	}
+	public Event getEventByName(String name) {
+		
+		return eventRepo.getEventByName(name);
+	}
 }

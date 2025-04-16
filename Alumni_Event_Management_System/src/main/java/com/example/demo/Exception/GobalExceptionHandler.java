@@ -23,6 +23,12 @@ public class GobalExceptionHandler {
     public @ResponseBody ErrorMassage handleEventNotFound(EventNotFoundException exception) {
         return new ErrorMassage(HttpStatus.NOT_FOUND.value(), exception.getMessage());
     }
+
+@ExceptionHandler(value = OrgnizationNotFoundException.class)  
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public @ResponseBody ErrorMassage handleOrganizationNotFoundException(OrgnizationNotFoundException exception) {  // Updated method name
+    return new ErrorMassage(HttpStatus.NOT_FOUND.value(), exception.getMessage());
+}
 }
 
 

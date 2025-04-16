@@ -43,15 +43,15 @@ public class AlumniController {
 		}	
 		
 	}
-	@GetMapping("/searchAlumniById/{Aid}")
-	public Alumni SearchAlumniById(@PathVariable("Aid") Integer id) {
-		Alumni al=alumService.getAlumniById(id);
+	@GetMapping("/searchAlumniByName/{name}")
+	public Alumni SearchAlumniByName(@PathVariable("name") String name) {
+		Alumni al=alumService.getAlumniByName(name);
 		if(al!=null) {
 			return al;
 			
 		}
 		else {
-			throw new AlumniNotFoundException("Employee not found using"+id);
+			throw new AlumniNotFoundException("Employee not found using"+name);
 		}	
 	    
 	}

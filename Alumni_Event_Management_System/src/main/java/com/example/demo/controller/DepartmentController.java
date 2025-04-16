@@ -47,18 +47,17 @@ public class DepartmentController {
 
 
 
-	@GetMapping("/searchDepartmentiById/{Did}")
-	public Department SearchDepartmenById(@PathVariable("Did") Integer Did) {
-		
-		
-		Department dept= DeptService.getDepartmentById(Did);
-		
-		if (dept != null) {
-			return dept;
-		} else {
-			throw new DepartmentNotFoundException("Department not found using ID: " + Did);
-		}
-	}
+    	@GetMapping("/searchDepartmentByName/{deptname}")
+    	public List<Department> searchDepartmentByName(@PathVariable("deptname") String deptname) {
+    	    List<Department> departments = DeptService.searchDepartmentsByName(deptname);
+    	    
+    	    if (departments != null && !departments.isEmpty()) {
+    	        return departments;
+    	    } else {
+    	        throw new DepartmentNotFoundException("Department not found with name: " + deptname);
+    	    }
+    	}
+
 	 @DeleteMapping("/deleteDepartment/{id}")
 	    public String deleteDepartment(@PathVariable int id) {
 	        boolean isDeleted = DeptService.deleteDepartmentById(id);

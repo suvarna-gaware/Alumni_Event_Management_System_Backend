@@ -107,4 +107,26 @@ public class EventRepository {
 		    return val > 0;
 		}
 
+	 public Event getEventByName(String ename) {
+		    List<Event> list = jdbcTemplate.query("SELECT * FROM event WHERE TRIM(ename) like ?", 
+		        new Object[] { "%" + ename.trim()+"%" },
+		        new RowMapper<Event>() {
+		            @Override
+		            public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
+		                Event e = new Event();
+		                e.setEid(rs.getInt(1));
+		                e.setOrgid(rs.getInt(2));
+		                e.setEname(rs.getString(3));
+		                e.setDates(rs.getDate(4).toLocalDate());
+		                e.setDescription(rs.getString(5));
+		                e.setVenue(rs.getString(6));
+		                return e;
+		            }
+		        }
+		    );
+
+		    return list.isEmpty() ? null : list.get(0); 
+		}
+
+
 }

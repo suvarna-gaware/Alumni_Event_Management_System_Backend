@@ -20,13 +20,17 @@ public class AlumniService {
 	public List<Alumni>getAllAlumni(){
 		return alumniRepo.getAllAlumni();
 	}
-	public Alumni getAlumniById(Integer id) {
-		return alumniRepo.getAlumniById(id);
-		
-	}
+//	public Alumni getAlumniById(Integer id) {
+//		return alumniRepo.getAlumniById(id);
+//		
+//	}
 	public boolean isUpdate(Alumni alumni) {
 		return alumniRepo.isUpdate(alumni);
 		
+	}
+	public Alumni getAlumniByName(String name) {
+		
+		return alumniRepo.getAlumniByName(name);
 	}
 	
 	}

@@ -31,10 +31,10 @@ public boolean deleteDepartmentById(int id) {
 public boolean isUpdate(Department department) {
     return DeptRepo.isUpdate(department);
 }
-public Department getDepartmentById(Integer did) {
-	
-	return DeptRepo.getDepartmentById(did);
-
+public List<Department> searchDepartmentsByName(String deptname) {
+    // Calls the repository method to search by department name
+    return DeptRepo.searchDepartmentsByName(deptname);
 }
+
 
 }

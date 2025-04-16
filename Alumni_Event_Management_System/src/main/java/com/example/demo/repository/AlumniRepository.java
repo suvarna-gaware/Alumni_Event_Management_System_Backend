@@ -67,28 +67,28 @@ public class AlumniRepository {
 
 	}
 
-	public Alumni getAlumniById(Integer id) {
-
-		list = jdbcTemplate.query("select*from Alumni where Alumni_id=?", new Object[] { id }, new RowMapper<Alumni>() {
-
-			@Override
-			public Alumni mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Alumni al = new Alumni();
-				al.setAlumniid(rs.getInt(1));
-				al.setDid(rs.getInt(2));
-				al.setName(rs.getString(3));
-				al.setGender(rs.getString(4));
-				al.setYear(rs.getInt(5));
-				al.setAddress(rs.getString(6));
-				al.setEmail(rs.getString(7));
-				al.setContact(rs.getString(8));
-				return al;
-			}
-
-		});
-		return list.size() > 0 ? list.get(0) : null;
-
-	}
+//	public Alumni getAlumniById(Integer id) {
+//
+//		list = jdbcTemplate.query("select*from Alumni where Alumni_id=?", new Object[] { id }, new RowMapper<Alumni>() {
+//
+//			@Override
+//			public Alumni mapRow(ResultSet rs, int rowNum) throws SQLException {
+//				Alumni al = new Alumni();
+//				al.setAlumniid(rs.getInt(1));
+//				al.setDid(rs.getInt(2));
+//				al.setName(rs.getString(3));
+//				al.setGender(rs.getString(4));
+//				al.setYear(rs.getInt(5));
+//				al.setAddress(rs.getString(6));
+//				al.setEmail(rs.getString(7));
+//				al.setContact(rs.getString(8));
+//				return al;
+//			}
+//
+//		});
+//		return list.size() > 0 ? list.get(0) : null;
+//
+//	}
 
 	public boolean isUpdate(Alumni alumni) {
 		int value = jdbcTemplate.update(
@@ -109,5 +109,27 @@ public class AlumniRepository {
 				});
 		return value > 0 ? true : false;
 
+	}
+
+	public Alumni getAlumniByName(String name) {
+		List<Alumni>list=jdbcTemplate.query("select*from alumni where trim( alumni_name) like ?", new Object[] {"%"+name.trim()+"%"},new RowMapper<Alumni>() {
+
+			@Override
+			public Alumni mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Alumni a=new Alumni();
+				a.setAlumniid(rs.getInt(1));
+				a.setDid(rs.getInt(2));
+				a.setName(rs.getString(3));
+				a.setGender(rs.getString(4));
+				a.setYear(rs.getInt(5));
+				a.setAddress(rs.getString(6));
+				a.setEmail(rs.getString(7));
+				a.setContact(rs.getString(8));
+				
+				return a;
+			}
+			
+		});
+		return list.isEmpty()?null:list.get(0);
 	}
 }
