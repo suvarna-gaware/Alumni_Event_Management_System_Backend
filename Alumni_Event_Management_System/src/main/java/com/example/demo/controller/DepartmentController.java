@@ -34,9 +34,10 @@ public class DepartmentController {
         return b ? "Department Added" : "Department not Added";
     }
 
-    	@GetMapping("/getDepartments")
+    	@GetMapping("/getDepartments")	
     	public List<Department> getAllDepartments() {
     	    List<Department> list = DeptService.getAllDepartments();
+    	    list.forEach((l)->System.out.println(l));
     	    if (list.size() != 0) {
     	        return list;
     	    } else {
@@ -75,9 +76,9 @@ public class DepartmentController {
 	        boolean updated = DeptService.isUpdate(department);
 
 	        if (updated) {
-	            return "Department updated successfully with ID: " + department.getDid();
+	            return "Department updated successfully with ID: " + department.getDeptid();
 	        } else {
-	            throw new DepartmentNotFoundException("Department not found with ID: " + department.getDid());
+	            throw new DepartmentNotFoundException("Department not found with ID: " + department.getDeptid());
 	        }
 	    }
 

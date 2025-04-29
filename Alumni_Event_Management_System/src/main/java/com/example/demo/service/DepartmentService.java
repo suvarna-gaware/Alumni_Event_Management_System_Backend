@@ -18,7 +18,7 @@ public boolean isAddDepartment(Department department) {
 	return DeptRepo.isAddDepartment(department);
 }
 public List<Department> getAllDepartments() {
-	// TODO Auto-generated method stub
+	
 	return DeptRepo.getAllDepartments();
 }
 

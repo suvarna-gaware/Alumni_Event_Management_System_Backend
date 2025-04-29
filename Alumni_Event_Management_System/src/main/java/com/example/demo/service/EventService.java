@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,8 +39,14 @@ public class EventService {
 		
 		return eventRepo.deleteEventById(id);
 	}
-	public Event getEventByName(String name) {
+	public List<Event> getEventByName(String name) {
+		 System.out.println("Searching Alumni by Name in repo ===> " +name);
+
 		
 		return eventRepo.getEventByName(name);
+	}
+	
+	public List<Map<String, Object>> getEvents(){
+		return eventRepo.getEvents();
 	}
 }

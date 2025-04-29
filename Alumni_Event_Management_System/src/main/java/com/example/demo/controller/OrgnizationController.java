@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,12 @@ import com.example.demo.Exception.OrgnizationNotFoundException;
 import com.example.demo.model.Orgnization;
 import com.example.demo.service.OrgnizationService;
 
+
 @RestController
+@CrossOrigin("*")
 public class OrgnizationController {
+	
+	
 	@Autowired
 	OrgnizationService orgService;
 	
@@ -46,9 +51,9 @@ public class OrgnizationController {
 	}
 	
 	@GetMapping("/searchOrgByname/{name}")
-	public Orgnization getOrgByName(@PathVariable ("name") String name) {
+	public List<Orgnization> getOrgByName(@PathVariable ("name") String name) {
 		
-		Orgnization org=orgService.getOgrByName(name);
+		List<Orgnization> org=orgService.getOgrByName(name);
 		if(org!=null) {
 			return org;
 		}
@@ -67,6 +72,8 @@ public class OrgnizationController {
 		throw new OrgnizationNotFoundException("orgnizatin not found"+org.getOrgid());
 		
 	}
+	
+
 	
 	
 

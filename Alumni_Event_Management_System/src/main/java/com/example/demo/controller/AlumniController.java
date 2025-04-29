@@ -3,6 +3,10 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Exception.AlumniNotFoundException;
-import com.example.demo.Exception.ErrorMassage;
+import com.example.demo.Exception.EventNotFoundException;
 import com.example.demo.model.Alumni;
+import com.example.demo.model.Event;
 import com.example.demo.service.AlumniService;
 @RestController
+@CrossOrigin(origins="*")
+//@CrossOrigin(origins="http://localhost:5174") 
 public class AlumniController {
 	@Autowired
 	AlumniService alumService;
@@ -44,17 +51,19 @@ public class AlumniController {
 		
 	}
 	@GetMapping("/searchAlumniByName/{name}")
-	public Alumni SearchAlumniByName(@PathVariable("name") String name) {
-		Alumni al=alumService.getAlumniByName(name);
-		if(al!=null) {
-			return al;
-			
-		}
-		else {
-			throw new AlumniNotFoundException("Employee not found using"+name);
-		}	
-	    
+	public List<Alumni> searchAlumniByName(@PathVariable("name") String name) {
+	    System.out.println("Searching Alumni by Name ===> " + name);
+
+	    List<Alumni> alumniList = alumService.getAlumniByName(name);
+
+	    if (alumniList != null) {
+	        return alumniList;
+	    } else {
+	       throw new AlumniNotFoundException("Alumni not found"+name);
+	    }
 	}
+	 
+
 	@PutMapping("/updateAlumni")
 	public String isupdateAlumni(@RequestBody  Alumni alumni) {
 		System.out.println(alumni);
@@ -68,7 +77,25 @@ public class AlumniController {
 		}
 		
 		
+		
 	}
+	
+	@DeleteMapping("/deleteAlumni/{id}")
+	public String deleteAlumni(@PathVariable int id) {
+		boolean b=alumService.deleteAlumniById(id);
+		
+			if(b) {
+				return "Alumni Delete Successfully"+id;
+			}
+			else {
+				throw new AlumniNotFoundException("Alumni not found or alerdy deleted"+id);
+			}
+		
+	
+		
+	}
+	
+	
 	}
 
 

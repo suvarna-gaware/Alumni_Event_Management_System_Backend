@@ -55,7 +55,7 @@ public class OrgnizationRepository {
 		return list;
 	}
 
-	public Orgnization getOrgByName(String name) {
+	public List<Orgnization> getOrgByName(String name) {
 		List<Orgnization> list=jdbcTemplate.query("select*from organization where trim( org_name) like ?",new Object[] {"%"+name.trim()+"%"},new RowMapper<Orgnization>() {
 
 			@Override
@@ -70,8 +70,11 @@ public class OrgnizationRepository {
 			}
 			
 		});
-		return list.isEmpty()?null:list.get(0);
+		return list;
 	}
+
+
+
 
 	public boolean isUpdateorg(Orgnization org) {
 		
@@ -88,5 +91,7 @@ public class OrgnizationRepository {
 		});
 		return row > 0?true:false;
 	}
+
+	
 
 }
