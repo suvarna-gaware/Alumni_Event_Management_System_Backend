@@ -28,9 +28,14 @@ public class AlumniService {
 		return alumniRepo.isUpdate(alumni);
 		
 	}
-	public Alumni getAlumniByName(String name) {
-		
-		return alumniRepo.getAlumniByName(name);
+	public List<Alumni> getAlumniByName(String name) {
+	    System.out.println("Searching Alumni by Name in service ===> " + name);
+	    return alumniRepo.getAlumniByName(name);  // This calls the repository to get the alumni list
+	}
+
+	public boolean deleteAlumniById(int id) {
+		// TODO Auto-generated method stub
+		return alumniRepo.deleteAlumniById(id);
 	}
 	
 	}

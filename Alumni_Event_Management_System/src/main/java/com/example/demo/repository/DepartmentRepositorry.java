@@ -38,7 +38,7 @@ public class DepartmentRepositorry {
             @Override
             public Department mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Department dept = new Department();
-                dept.setDid(rs.getInt(1));         
+                dept.setDeptid(rs.getInt(1));         
                 dept.setDeptname(rs.getString(2));
                 return dept;
             }
@@ -51,13 +51,14 @@ public class DepartmentRepositorry {
         
     	System.out.println("name : "+deptname);
         String sql = "SELECT * FROM Department WHERE TRIM(deptname) like ?";
-        
+        String mod = "%";
+        String like = mod + deptname.trim() + mod;
         return jdbcTemplate.query(
             sql,
-            new Object[] {"%" + deptname.trim() + "%"},  
+            new Object[] {like },  
             (rs, rowNum) -> {
                 Department dept = new Department();
-                dept.setDid(rs.getInt(1));
+                dept.setDeptid(rs.getInt(1));
                 dept.setDeptname(rs.getString(2));
                 return dept;
             }
@@ -88,7 +89,7 @@ public class DepartmentRepositorry {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setString(1, department.getDeptname());
-                ps.setInt(2, department.getDid());
+                ps.setInt(2, department.getDeptid());
             }
         });
 

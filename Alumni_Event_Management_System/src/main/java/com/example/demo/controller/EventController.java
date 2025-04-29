@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.Exception.AlumniNotFoundException;
 import com.example.demo.Exception.EventNotFoundException;
-import com.example.demo.model.Alumni;
 import com.example.demo.model.Event;
 import com.example.demo.service.EventService;
 
@@ -25,14 +24,12 @@ public class EventController {
 
 	@PostMapping("/createEvent")
 	public String createEvent(@RequestBody Event event) {
-		boolean b = eventService.isAddNewEvent(event);
-		System.out.println("Description: " + event.getDescription()); // Debug line
-		if (b) {
-			return "Event Added";
-		}
-		return "Event not Added";
-
+	    System.out.println("Event Data is " + event);
+	    boolean b = eventService.isAddNewEvent(event);
+	    System.out.println("Description: " + event.getLocation());
+	    return b ? "Event Added" : "Event not Added";
 	}
+
 
 	@GetMapping("/viewAllEvents")
 	public List<Event> getAllEvent() {
@@ -56,8 +53,10 @@ public class EventController {
 		}
 	}
 	@GetMapping("/searchEventByName/{name}")
-	public Event searchEventByName(@PathVariable("name") String name) {
-	    Event event = eventService.getEventByName(name);
+	public List<Event> searchEventByName(@PathVariable("name") String name) {
+		 System.out.println("Searching Alumni by Name in repo ===> " +name);
+
+	    List<Event> event = eventService.getEventByName(name);
 	    if (event != null) {
 	        return event;
 	    } else {
@@ -68,25 +67,30 @@ public class EventController {
 
 	@PutMapping("/updateEvent/{id}")
 	public String updateEvent(@PathVariable int id, @RequestBody Event event) {
-		event.setEid(id); 
+		event.setEventid(id); 
 		boolean updated = eventService.isUpdate(event);
 		if (updated) {
-			return " Event updated with ID: " + event.getEid();
+			return " Event updated with ID: " + event.getEventid();
 		} else {
-			throw new EventNotFoundException(" Event not found with ID: " + event.getEid());
+			throw new EventNotFoundException(" Event not found with ID: " + event.getEventid());
 		}
 	}
 	
-	@DeleteMapping("/deleteEvet/{id}")
+	@DeleteMapping("/deleteEvent/{id}")
 	public String deleteEvent(@PathVariable int id) {
 		boolean b=eventService.deleteEventById(id);
 		if(b) {
-			return "Event Delete Successfully";
+			return "Event Delete Successfully:"+id;
 		}
 		else {
-		return "Event Not found or Alerdy deleted";
+		throw new EventNotFoundException("Event Not found or Alerdy deleted"+id);
 		
 	}
 
+}
+@GetMapping("/getevents")
+public List<Map<String, Object>> getevents(){
+	return eventService.getEvents(); 
+	
 }
 }

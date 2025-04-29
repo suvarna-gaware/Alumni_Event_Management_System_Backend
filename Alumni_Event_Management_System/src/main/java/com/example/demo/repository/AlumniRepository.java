@@ -21,19 +21,21 @@ public class AlumniRepository {
 	private JdbcTemplate jdbcTemplate;
 
 	public boolean isAddNewAlumni(Alumni alumni) {
-		int val = jdbcTemplate.update("insert into alumni values('0',?,?,?,?,?,?,?)", new PreparedStatementSetter() {
+		int val = jdbcTemplate.update("insert into alumni values('0',?,?,?,?,?,?,?,?)", new PreparedStatementSetter() {
 
 			@Override
 			public void setValues(PreparedStatement ps) {
 				System.out.println(alumni);
 				try {
-					ps.setInt(1, alumni.getDid());
+					ps.setInt(1, alumni.getDeptid());
 					ps.setString(2, alumni.getName());
 					ps.setString(3, alumni.getGender());
 					ps.setInt(4, alumni.getYear());
 					ps.setString(5, alumni.getAddress());
 					ps.setString(6, alumni.getEmail());
 					ps.setString(7, alumni.getContact());
+					ps.setString(8,alumni.getStatus());
+					
 
 				} catch (Exception e) {
 					System.out.println(e);
@@ -52,13 +54,15 @@ public class AlumniRepository {
 			public Alumni mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Alumni al = new Alumni();
 				al.setAlumniid(rs.getInt(1));
-				al.setDid(rs.getInt(2));
+				al.setDeptid(rs.getInt(2));
 				al.setName(rs.getString(3));
 				al.setGender(rs.getString(4));
 				al.setYear(rs.getInt(5));
 				al.setAddress(rs.getString(6));
 				al.setEmail(rs.getString(7));
 				al.setContact(rs.getString(8));
+				al.setStatus(rs.getString(9));
+				
 				return al;
 			}
 
@@ -91,45 +95,66 @@ public class AlumniRepository {
 //	}
 
 	public boolean isUpdate(Alumni alumni) {
-		int value = jdbcTemplate.update(
-				"update Alumni set Did=?, alumni_name=?,gender=?, passout_year=?,address=?,alumni_email=?,contact=? where Alumni_id=?",
-				new PreparedStatementSetter() {
+	    int value = jdbcTemplate.update(
+	        "update Alumni set Did=?, alumni_name=?, gender=?, passout_year=?, address=?, alumni_email=?, contact=?, status=? where Alumni_id=?",
+	        new PreparedStatementSetter() {
 
-					@Override
-					public void setValues(PreparedStatement ps) throws SQLException {
-						ps.setInt(1, alumni.getDid());
-						ps.setString(2, alumni.getName());
-						ps.setString(3, alumni.getGender());
-						ps.setInt(4, alumni.getYear());
-						ps.setString(5, alumni.getAddress());
-						ps.setString(6, alumni.getEmail());
-						ps.setString(7, alumni.getContact());
-						ps.setInt(8, alumni.getAlumniid());
-					}
-				});
-		return value > 0 ? true : false;
-
+	            @Override
+	            public void setValues(PreparedStatement ps) throws SQLException {
+	                ps.setInt(1, alumni.getDeptid());
+	                ps.setString(2, alumni.getName());
+	                ps.setString(3, alumni.getGender());
+	                ps.setInt(4, alumni.getYear());
+	                ps.setString(5, alumni.getAddress());
+	                ps.setString(6, alumni.getEmail());
+	                ps.setString(7, alumni.getContact());
+	                ps.setString(8, alumni.getStatus());  
+	                ps.setInt(9, alumni.getAlumniid());    
+	            }
+	        }
+	    );
+	    return value > 0;
 	}
 
-	public Alumni getAlumniByName(String name) {
-		List<Alumni>list=jdbcTemplate.query("select*from alumni where trim( alumni_name) like ?", new Object[] {"%"+name.trim()+"%"},new RowMapper<Alumni>() {
+	public List<Alumni> getAlumniByName(String name) {
+	    System.out.println("Searching Alumni by Name in repo ===> " + name);
+
+	    // Ensure proper trimming and matching in SQL
+	    List<Alumni> list = jdbcTemplate.query(
+	        "SELECT * FROM alumni WHERE TRIM(alumni_name) LIKE ?", 
+	        new Object[] {"%" + name.trim() + "%"},
+	        new RowMapper<Alumni>() {
+	            @Override
+	            public Alumni mapRow(ResultSet rs, int rowNum) throws SQLException {
+	                Alumni a = new Alumni();
+	                a.setAlumniid(rs.getInt(1));
+	                a.setDeptid(rs.getInt(2));
+	                a.setName(rs.getString(3));
+	                a.setGender(rs.getString(4));
+	                a.setYear(rs.getInt(5));
+	                a.setAddress(rs.getString(6));
+	                a.setEmail(rs.getString(7));
+	                a.setContact(rs.getString(8));
+	                a.setStatus(rs.getString(9));
+
+	                return a;
+	            }
+	        });
+
+	    return list; // Return the full list of matched alumni
+	}
+
+
+	public boolean deleteAlumniById(int id) {
+		int val=jdbcTemplate.update("delete from alumni where  Alumni_id=?", new PreparedStatementSetter(){
 
 			@Override
-			public Alumni mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Alumni a=new Alumni();
-				a.setAlumniid(rs.getInt(1));
-				a.setDid(rs.getInt(2));
-				a.setName(rs.getString(3));
-				a.setGender(rs.getString(4));
-				a.setYear(rs.getInt(5));
-				a.setAddress(rs.getString(6));
-				a.setEmail(rs.getString(7));
-				a.setContact(rs.getString(8));
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, id);
 				
-				return a;
 			}
 			
 		});
-		return list.isEmpty()?null:list.get(0);
+		return val>0;
 	}
 }

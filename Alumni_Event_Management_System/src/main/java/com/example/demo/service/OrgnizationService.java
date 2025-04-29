@@ -22,7 +22,7 @@ public class OrgnizationService {
 		return orgRepo.getAllorg();
 	}
 
-	public Orgnization getOgrByName(String name) {
+	public List<Orgnization> getOgrByName(String name) {
 		
 		return orgRepo.getOrgByName(name);
 	}
