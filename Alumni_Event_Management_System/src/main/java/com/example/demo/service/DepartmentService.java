@@ -32,7 +32,6 @@ public boolean isUpdate(Department department) {
     return DeptRepo.isUpdate(department);
 }
 public List<Department> searchDepartmentsByName(String deptname) {
-    // Calls the repository method to search by department name
     return DeptRepo.searchDepartmentsByName(deptname);
 }
 
