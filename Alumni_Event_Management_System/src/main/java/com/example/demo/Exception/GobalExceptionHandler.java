@@ -40,4 +40,10 @@ public class GobalExceptionHandler {
 			EventAttendanceNotFoundException exception) {
 		return new ErrorMassage(HttpStatus.NOT_FOUND.value(), exception.getMessage());
 	}
+	@ExceptionHandler(value = FeedbackNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public @ResponseBody ErrorMassage handlerFeedbackNotFoundException(
+			FeedbackNotFoundException exception) {
+		return new ErrorMassage(HttpStatus.NOT_FOUND.value(),exception.getMessage());
+	}
 }

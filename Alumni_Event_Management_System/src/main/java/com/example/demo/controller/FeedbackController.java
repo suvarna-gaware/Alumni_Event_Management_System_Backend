@@ -1,20 +1,22 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.Exception.DepartmentNotFoundException;
-import com.example.demo.model.Department;
-import com.example.demo.model.Feedback;
-
-import com.example.demo.service.FeedbackService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.Exception.FeedbackNotFoundException;
+import com.example.demo.model.Feedback;
+import com.example.demo.service.FeedbackService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping()
 @CrossOrigin(origins = "*")
 public class FeedbackController {
 
@@ -30,16 +32,21 @@ public class FeedbackController {
         System.out.println("Description: " + feedback.getFeedbackmsg());
         return b ? "Feedback Added" : "Feedback Not Added";
     }
-    @GetMapping("/getFeedback")	
-	public List<Feedback> getAllFeedback() {
-	    List<Feedback> list = feedbackService.getAllFeedback();
-	    list.forEach((l)->System.out.println(l));
-	    if (list.size() != 0) {
-	        return list;
-	    } else {
-	        throw new DepartmentNotFoundException("There are no feedback in the database");
-	    }
-	}
+    @GetMapping("/getFeedback")
+    public List<Feedback> getAllFeedback() {
+        List<Feedback> list = feedbackService.getAllFeedback();
+
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+
+        if (!list.isEmpty()) {
+            return list;
+        } else {
+            throw new FeedbackNotFoundException("There are no feedback in the database");
+        }
+    }
+
 
 
 

@@ -23,14 +23,14 @@ public class FeedbackRepository {
 
     public boolean isAddNewFeedback(Feedback feedback) {
         int val = jdbcTemplate.update(
-            "INSERT INTO feedback(fid, feedback_msg, ename, alumni_email) VALUES (?, ?, ?, ?)",
+            "INSERT INTO feedback(feedbackid,eventname, alumniemail,feedbackmsg) VALUES (?, ?, ?, ?)",
             new PreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement ps) throws SQLException {
-                    ps.setInt(1, feedback.getFid());
-                    ps.setString(2, feedback.getFeedbackmsg());
-                    ps.setString(3, feedback.getEname());
+                    ps.setInt(1, feedback.getFeedbackid());
+                    ps.setString(3, feedback.getEventname());
                     ps.setString(4, feedback.getAlumniemail());
+                    ps.setString(2, feedback.getFeedbackmsg());
                 }
             });
         return val > 0;
@@ -43,10 +43,10 @@ public class FeedbackRepository {
             @Override
             public Feedback mapRow(ResultSet rs, int rowNum) throws SQLException {
             	Feedback f = new Feedback();
-                f.setFid(rs.getInt(1));         
-                f.setFeedbackmsg(rs.getString(2));
-                f.setEname(rs.getString(3));
-                f.setAlumniemail(rs.getString(4));
+                f.setFeedbackid(rs.getInt(1));         
+                f.setEventname(rs.getString(2));
+                f.setAlumniemail(rs.getString(3));
+                f.setFeedbackmsg(rs.getString(4));
                 return f;
             }
 
