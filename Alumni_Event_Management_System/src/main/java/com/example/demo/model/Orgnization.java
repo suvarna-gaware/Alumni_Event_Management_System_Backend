@@ -5,11 +5,12 @@ import lombok.Data;
 @Data
 public class Orgnization {
 	
-	private int Orgid;
-	private int Did;
-	private String Orgname;
-	private String Orgemail;
-	private String Orgcontact;
+	private int orgid;
+    private int deptid;
+    private String orgname;
+    private String orgemail;
+    private String orgcontact;
+
 	
 
 }

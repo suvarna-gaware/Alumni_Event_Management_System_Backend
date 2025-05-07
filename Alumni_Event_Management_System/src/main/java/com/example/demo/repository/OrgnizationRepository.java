@@ -21,11 +21,12 @@ public class OrgnizationRepository {
 	private JdbcTemplate jdbcTemplate;
 
 	public boolean isAddNewOrg(Orgnization org) {
-		int val = jdbcTemplate.update("insert into organization values ('0',?, ?, ?, ?)",new PreparedStatementSetter() {
+		System.out.println("repo:"+org);
+		int val = jdbcTemplate.update("INSERT INTO organization (Did, org_name, org_email, org_contact) VALUES (?, ?, ?, ?)",new PreparedStatementSetter() {
 
 					@Override
 					public void setValues(PreparedStatement ps) throws SQLException {
-						ps.setInt(1, org.getDid());
+						ps.setInt(1, org.getDeptid());
 						ps.setString(2, org.getOrgname());
 						ps.setString(3, org.getOrgemail());
 						ps.setString(4,org.getOrgcontact());
@@ -42,7 +43,7 @@ public class OrgnizationRepository {
 			public Orgnization mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Orgnization org=new Orgnization();
 				org.setOrgid(rs.getInt(1));
-				org.setDid(rs.getInt(2));
+				org.setDeptid(rs.getInt(2));
 				org.setOrgname(rs.getString(3));
 				org.setOrgemail(rs.getString(4));
 				org.setOrgcontact(rs.getString(5));
@@ -62,7 +63,7 @@ public class OrgnizationRepository {
 			public Orgnization mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Orgnization org=new Orgnization();
 				org.setOrgid(rs.getInt(1));
-				org.setDid(rs.getInt(2));
+				org.setDeptid(rs.getInt(2));
 				org.setOrgname(rs.getString(3));
 				org.setOrgemail(rs.getString(4));
 				org.setOrgcontact(rs.getString(5));
@@ -82,7 +83,7 @@ public class OrgnizationRepository {
 		int row = jdbcTemplate.update(sql, new PreparedStatementSetter() {
 		    @Override
 		    public void setValues(PreparedStatement ps) throws SQLException {
-		        ps.setInt(1, org.getDid());
+		        ps.setInt(1, org.getDeptid());
 		        ps.setString(2, org.getOrgname());
 		        ps.setString(3, org.getOrgemail());
 		        ps.setString(4, org.getOrgcontact());
@@ -90,6 +91,21 @@ public class OrgnizationRepository {
 		    }
 		});
 		return row > 0?true:false;
+	}
+
+	public boolean isDeleteOrg(int id) {
+		int val=jdbcTemplate.update("delete from  organization where org_id=?",new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, id);
+				
+			}
+			
+		});
+		
+		
+		return val>0;
 	}
 
 	

@@ -13,10 +13,10 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("/adminLogin")
-    public Admin login(@RequestBody Admin admin) {
-        Admin loggedInAdmin = adminService.login(admin.getUsername(), admin.getPassword());
-        if (loggedInAdmin != null) {
-            return loggedInAdmin;
+    public String login(@RequestBody Admin admin) {
+        boolean loggedInAdmin = adminService.login(admin.getUsername(), admin.getPassword());
+        if (loggedInAdmin) {
+            return "login sucess....";
         } else {
             throw new RuntimeException("Invalid credentials");
         }

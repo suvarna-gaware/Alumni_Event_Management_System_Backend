@@ -11,7 +11,7 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
-    public Admin login(String username, String password) {
+    public boolean login(String username, String password) {
         return adminRepository.login(username, password);
     }
 }
