@@ -3,9 +3,9 @@ package com.example.demo.model;
 import lombok.Data;
 
 @Data
-public class Admin {
-
+public class Login {
+	 private String role;
 	    private String username;
 	    private String password;
-	
+
 }
