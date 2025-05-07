@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class Alumni {
-	private int Alumniid;
+	private int alumniid;
 	private int deptid;
 	private String name;
 	private String email;

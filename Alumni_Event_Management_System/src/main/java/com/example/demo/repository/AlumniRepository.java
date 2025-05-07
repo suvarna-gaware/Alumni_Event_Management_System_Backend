@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -119,7 +120,7 @@ public class AlumniRepository {
 	public List<Alumni> getAlumniByName(String name) {
 	    System.out.println("Searching Alumni by Name in repo ===> " + name);
 
-	    // Ensure proper trimming and matching in SQL
+	    
 	    List<Alumni> list = jdbcTemplate.query(
 	        "SELECT * FROM alumni WHERE TRIM(alumni_name) LIKE ?", 
 	        new Object[] {"%" + name.trim() + "%"},
@@ -141,7 +142,7 @@ public class AlumniRepository {
 	            }
 	        });
 
-	    return list; // Return the full list of matched alumni
+	    return list; 
 	}
 
 
@@ -157,4 +158,57 @@ public class AlumniRepository {
 		});
 		return val>0;
 	}
+
+	public List<Alumni> getAlumniByIdd(Integer aid) {
+	    System.out.println("REPO:" + aid);
+	    String query = "SELECT * FROM alumni WHERE Alumni_id = ?";
+	    
+	    List<Alumni> result = jdbcTemplate.query(query, new Object[] {aid}, new RowMapper<Alumni>() {
+	        @Override
+	        public Alumni mapRow(ResultSet rs, int rowNum) throws SQLException {
+	            Alumni a = new Alumni();
+	            a.setAlumniid(rs.getInt(1));
+	            a.setDeptid(rs.getInt(2));
+	            a.setName(rs.getString(3));
+	            a.setGender(rs.getString(4));
+	            a.setYear(rs.getInt(5));
+	            a.setAddress(rs.getString(6));
+	            a.setEmail(rs.getString(7));
+	            a.setContact(rs.getString(8));
+	            a.setStatus(rs.getString(9));
+	            return a;
+	        }
+	    });
+	    
+	    return result;  
+	}
+
+	//-------------------------------------------------------------
+	
+	public Alumni iseAlumniLogin(Alumni alumni) {
+	    String sql = "SELECT * FROM alumni WHERE alumni_email = ? AND contact = ?";
+
+	    try {
+	        return jdbcTemplate.queryForObject(sql, new Object[]{alumni.getEmail(), alumni.getContact()}, new RowMapper<Alumni>() {
+	            @Override
+	            public Alumni mapRow(ResultSet rs, int rowNum) throws SQLException {
+	                Alumni a = new Alumni();
+	                a.setAlumniid(rs.getInt("Alumni_id"));
+	                a.setDeptid(rs.getInt("Did"));
+	                a.setName(rs.getString("alumni_name"));
+	                a.setGender(rs.getString("gender"));
+	                a.setYear(rs.getInt("passout_year"));
+	                a.setAddress(rs.getString("address"));
+	                a.setEmail(rs.getString("alumni_email"));
+	                a.setContact(rs.getString("contact"));
+	                a.setStatus(rs.getString("status"));
+	                return a;
+	            }
+	        });
+	    } catch (EmptyResultDataAccessException e) {
+	        return null; 
+	    }
+	}
+
+
 }

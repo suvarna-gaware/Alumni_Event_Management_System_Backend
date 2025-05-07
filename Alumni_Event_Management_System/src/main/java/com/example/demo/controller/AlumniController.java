@@ -50,6 +50,25 @@ public class AlumniController {
 		}	
 		
 	}
+	
+	
+	//------------------------------------------------------------
+	
+	
+	@PostMapping("/login")
+	public Alumni createAlumniLogin(@RequestBody Alumni alumni) {
+		System.out.println("="+alumni);	
+		Alumni b=alumService.iseAlumniLogin(alumni);
+		System.out.println(b);
+		 if(b!=null) {
+			 return b;
+		 }
+		 else {
+			 return b;
+		 }
+		
+		
+	}
 	@GetMapping("/searchAlumniByName/{name}")
 	public List<Alumni> searchAlumniByName(@PathVariable("name") String name) {
 	    System.out.println("Searching Alumni by Name ===> " + name);
@@ -92,6 +111,14 @@ public class AlumniController {
 			}
 		
 	
+		
+	}
+	
+	@GetMapping("/alumnidata/{aid}")
+	public List getAlumniByIdd(@PathVariable("aid") Integer aid) {
+		List list=alumService.getAlumniByIdd(aid);
+		System.out.println("==============="+list);
+		return list;
 		
 	}
 	

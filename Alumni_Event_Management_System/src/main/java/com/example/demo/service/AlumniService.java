@@ -30,12 +30,21 @@ public class AlumniService {
 	}
 	public List<Alumni> getAlumniByName(String name) {
 	    System.out.println("Searching Alumni by Name in service ===> " + name);
-	    return alumniRepo.getAlumniByName(name);  // This calls the repository to get the alumni list
+	    return alumniRepo.getAlumniByName(name);  
 	}
 
 	public boolean deleteAlumniById(int id) {
-		// TODO Auto-generated method stub
+		
 		return alumniRepo.deleteAlumniById(id);
+	}
+	public List getAlumniByIdd(Integer aid) {
+		System.out.println("Service:"+aid);
+		
+		return alumniRepo.getAlumniByIdd(aid);
+	}
+	public Alumni iseAlumniLogin(Alumni alumni) {
+		// TODO Auto-generated method stub
+		return alumniRepo.iseAlumniLogin(alumni);
 	}
 	
 	}

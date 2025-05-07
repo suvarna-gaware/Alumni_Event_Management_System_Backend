@@ -13,12 +13,13 @@ public class OrgnizationService {
 	OrgnizationRepository orgRepo;
 
 	public boolean isAddNewOrg(Orgnization org) {
+		System.out.println("service:"+org);
 		
 		return orgRepo.isAddNewOrg(org) ;
 	}
 
 	public List<Orgnization> getAllOrg() {
-		// TODO Auto-generated method stub
+		
 		return orgRepo.getAllorg();
 	}
 
@@ -28,8 +29,13 @@ public class OrgnizationService {
 	}
 
 	public boolean isUpdateorg(Orgnization org) {
-		// TODO Auto-generated method stub
+		
 		return orgRepo.isUpdateorg(org);
+	}
+
+	public boolean isDeleteOrg(int id) {
+		
+		return orgRepo.isDeleteOrg(id);
 	}
 
 }

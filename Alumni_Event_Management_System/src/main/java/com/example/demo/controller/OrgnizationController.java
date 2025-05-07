@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class OrgnizationController {
 	
 	@PostMapping("/createOrg")
 	public String createorg(@RequestBody Orgnization org) {
-		System.out.println("org details");
+		System.out.println("org details controller");
 		System.out.println(org);
 		boolean b=orgService.isAddNewOrg(org);
 		
@@ -71,6 +72,19 @@ public class OrgnizationController {
 		}
 		throw new OrgnizationNotFoundException("orgnizatin not found"+org.getOrgid());
 		
+	}
+	
+	@DeleteMapping("/deleteOrg/{id}")
+	public String isDeleteOrg(@PathVariable int id) {
+		
+		boolean b=orgService.isDeleteOrg(id);
+		if(b){
+			return "organization delete successfully"+id;
+		}
+		else {
+		throw new OrgnizationNotFoundException("orgnization not found alerdy deleted"+id);
+		}
+			
 	}
 	
 
