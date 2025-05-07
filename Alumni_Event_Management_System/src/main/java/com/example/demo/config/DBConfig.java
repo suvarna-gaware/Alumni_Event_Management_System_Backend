@@ -26,7 +26,7 @@ public class DBConfig {
 	
 	 @Bean
 	    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-	        return new JdbcTemplate(dataSource);  // This assumes a DataSource is available in the context
+	        return new JdbcTemplate(dataSource); 
 	    }
 	
 }
