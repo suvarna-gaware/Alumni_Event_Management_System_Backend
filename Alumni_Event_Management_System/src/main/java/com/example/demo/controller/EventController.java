@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Exception.EventNotFoundException;
 import com.example.demo.model.Event;
 import com.example.demo.service.EventService;
 
 @RestController
+
 @CrossOrigin(origins = "*")
 public class EventController {
 	@Autowired
@@ -93,4 +95,32 @@ public List<Map<String, Object>> getevents(){
 	return eventService.getEvents(); 
 	
 }
+
+/*
+@GetMapping("/events/alumni/{alumniId}")
+public List<Map<String, Object>> getEventsByAlumniId(@PathVariable Integer alumniId) {
+	
+	System.out.println("=========================================");
+	List<Map<String, Object>> list=eventService.getEventsByAlumniId(alumniId);
+	System.err.println("------------> "+list);
+    return list;
+}
+
+*/
+
+//--------------------------------------------------------------------
+
+@GetMapping("/events/alumni/{alumniId}")
+public List<Map<String, Object>> getEventsByAlumniId(@PathVariable Integer alumniId) {
+    System.out.println("====== Backend Hit: /events/alumni/" + alumniId + " ======");
+    List<Map<String, Object>> list = eventService.getEventsByAlumniId(alumniId);
+    System.err.println("Events returned: " + list);
+    return list;
+}
+//--------------------------------------------------------------------
+//@GetMapping("/alumni/{alumniId}")
+//public List<Map<String, Object>> getEventsByAlumniId(@PathVariable int alumniId) {
+//    return eventService.getEventsByAlumniId(alumniId);
+//}
+
 }

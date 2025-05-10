@@ -10,4 +10,5 @@ public class Event {
     private String eventdate;
     private String eventtime;
     private String location;
+
 }

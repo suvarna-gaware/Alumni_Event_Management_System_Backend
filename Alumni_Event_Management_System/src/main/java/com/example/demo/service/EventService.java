@@ -49,4 +49,12 @@ public class EventService {
 	public List<Map<String, Object>> getEvents(){
 		return eventRepo.getEvents();
 	}
+	
+
+    public List<Map<String, Object>> getEventsByAlumniId(int alumniId) {
+        return eventRepo.getEventsByAlumniId(alumniId);
+    }
+//	 public List<Map<String, Object>> getEventsByAlumniId(int alumniId) {
+//	        return eventRepo.getEventsByAlumniId(alumniId);
+//	    }
 }
