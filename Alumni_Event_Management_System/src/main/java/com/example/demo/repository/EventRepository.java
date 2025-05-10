@@ -1,3 +1,4 @@
+
 package com.example.demo.repository;
 
 import java.sql.PreparedStatement;
@@ -123,8 +124,20 @@ public class EventRepository {
 		return list;
 	}
 
-	public List<Map<String, Object>> getEvents(){
-		List<Map<String, Object>> list = jdbcTemplate.queryForList("select e.eventid, e.eventname, e.eventdate, e.eventtime, e.location, d.deptname from event e join department d on e.deptid = d.did");
-    	return list;
-    }
+	public List<Map<String, Object>> getEvents() {
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"select e.eventid, e.eventname, e.eventdate, e.eventtime, e.location, d.deptname from event e join department d on e.deptid = d.did");
+		return list;
+	}
+
+	public List<Map<String, Object>> getEventsByAlumniId(int alumniId) {
+		String sql = "SELECT e.eventid, e.eventname, e.location, e.eventdate, e.eventtime, e.deptid, d.deptname "
+				+ "FROM event e " + "JOIN department d ON e.deptid = d.Did " + "JOIN alumni a ON a.Did = d.Did "
+				+ "WHERE a.Alumni_id = ?";
+
+		return jdbcTemplate.queryForList(sql, alumniId);
+	}
+	
+	 
+	
 }
