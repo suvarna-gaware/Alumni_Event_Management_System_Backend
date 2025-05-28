@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Exception.EventNotFoundException;
 import com.example.demo.model.Event;
+import com.example.demo.model.EventDTO;
 import com.example.demo.service.EventService;
 
 @RestController
-
 @CrossOrigin(origins = "*")
 public class EventController {
 	@Autowired
@@ -69,14 +70,16 @@ public class EventController {
 
 	@PutMapping("/updateEvent/{id}")
 	public String updateEvent(@PathVariable int id, @RequestBody Event event) {
-		event.setEventid(id); 
-		boolean updated = eventService.isUpdate(event);
-		if (updated) {
-			return " Event updated with ID: " + event.getEventid();
-		} else {
-			throw new EventNotFoundException(" Event not found with ID: " + event.getEventid());
-		}
+	    event.setEventid(id); 
+	    boolean updated = eventService.isUpdate(event);
+	    System.out.println("controller" + event);
+	    if (updated) {
+	        return "Event updated successfully";
+	    } else {
+	        throw new EventNotFoundException("Event not found with ID: " + id); // FIXED LINE
+	    }
 	}
+
 	
 	@DeleteMapping("/deleteEvent/{id}")
 	public String deleteEvent(@PathVariable int id) {
@@ -122,5 +125,27 @@ public List<Map<String, Object>> getEventsByAlumniId(@PathVariable Integer alumn
 //public List<Map<String, Object>> getEventsByAlumniId(@PathVariable int alumniId) {
 //    return eventService.getEventsByAlumniId(alumniId);
 //}
+
+@GetMapping("/by-department/{deptName}")
+public List<Event> getEventsByDepartmentName(@PathVariable String deptName) {
+    System.out.println("Received department: " + deptName);
+    return eventService.getEventsByDepartmentName(deptName);
+}
+
+
+@PostMapping("/create")
+public ResponseEntity<String> createEventDept(@RequestBody EventDTO eventDTO) {
+    eventService.createEventDetp(eventDTO);
+    return ResponseEntity.ok("Event created successfully");
+}
+
+
+@GetMapping("/department/{deptid}")
+public List<EventDTO> viewEventsByDept(@PathVariable int deptid) {
+    return eventService.getEventsByDept(deptid);
+}
+
+
+
 
 }

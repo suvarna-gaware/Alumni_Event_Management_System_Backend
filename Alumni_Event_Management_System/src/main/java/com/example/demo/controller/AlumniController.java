@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Exception.AlumniNotFoundException;
 import com.example.demo.Exception.EventNotFoundException;
 import com.example.demo.model.Alumni;
+import com.example.demo.model.AlumniDTO;
 import com.example.demo.model.Event;
 import com.example.demo.service.AlumniService;
 @RestController
@@ -88,10 +89,10 @@ public class AlumniController {
 		System.out.println(alumni);
 		boolean b=alumService.isUpdate(alumni);
 		if(b) {
-			return "Alumni Record update with id"+alumni;
+			return "Alumni Record update";
 		}
 		else {
-			throw new AlumniNotFoundException("Alumni not Found using id"+alumni.getAlumniid());
+			throw new AlumniNotFoundException("Alumni not Found ");
 			
 		}
 		
@@ -122,6 +123,13 @@ public class AlumniController {
 		
 	}
 	
+	
+	@GetMapping("/alumni/by-dept/{deptId}")
+	public List<AlumniDTO> getAlumniByDept(@PathVariable int deptId) {
+		
+		System.out.println(deptId);
+	    return alumService.getAlumniByDepartment(deptId);
+	}
 	
 	}
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Alumni;
 import com.example.demo.model.Event;
+import com.example.demo.model.EventDTO;
 import com.example.demo.repository.AlumniRepository;
 import com.example.demo.repository.EventRepository;
 
@@ -31,6 +32,7 @@ public class EventService {
 }
 	
 	 public boolean isUpdate(Event event) {
+		 System.out.println("service"+event);
 	        return eventRepo.isUpdate(event);
 	    }
 	
@@ -57,4 +59,18 @@ public class EventService {
 //	 public List<Map<String, Object>> getEventsByAlumniId(int alumniId) {
 //	        return eventRepo.getEventsByAlumniId(alumniId);
 //	    }
+    
+    public List<Event> getEventsByDepartmentName(String deptName) {
+        return eventRepo.getEventsByDepartmentName(deptName);
+    }
+    
+    public void createEventDetp(EventDTO eventDTO) {
+    	eventRepo.insertEvent(eventDTO);
+    }
+    
+    
+    public List<EventDTO> getEventsByDept(int deptid) {
+        return eventRepo.getEventsByDeptId(deptid);
+    }
+
 }

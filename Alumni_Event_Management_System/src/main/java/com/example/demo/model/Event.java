@@ -11,4 +11,7 @@ public class Event {
     private String eventtime;
     private String location;
 
+    //**************************
+    private String deptname;
+    private int passoutYear; 
 }

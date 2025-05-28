@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Alumni;
+import com.example.demo.model.AlumniDTO;
 
 @Repository("alumniRepo")
 public class AlumniRepository {
@@ -209,6 +210,21 @@ public class AlumniRepository {
 	        return null; 
 	    }
 	}
-
+//------------------------------------------
+	
+	 public List<AlumniDTO> getAlumniByDepartment(int deptid) {
+	        String sql = "SELECT Alumni_id, alumni_name, alumni_email FROM alumni WHERE Did = ?";
+	        return jdbcTemplate.query(sql, new Object[] {deptid}, new RowMapper<AlumniDTO>() {
+	            @Override
+	            public AlumniDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+	                AlumniDTO dto = new AlumniDTO();
+	                dto.setAlumniId(rs.getInt("Alumni_id"));
+	                dto.setName(rs.getString("alumni_name"));
+	                dto.setEmail(rs.getString("alumni_email"));
+	                
+	                return dto;
+	            }
+	        });
+	    }
 
 }

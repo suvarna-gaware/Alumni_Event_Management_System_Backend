@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Exception.OrgnizationNotFoundException;
+import com.example.demo.model.OrgDashboardCountDTO;
 import com.example.demo.model.Orgnization;
 import com.example.demo.service.OrgnizationService;
 
@@ -86,6 +87,29 @@ public class OrgnizationController {
 		}
 			
 	}
+	
+	@PostMapping("/loginorg")
+	public Orgnization createOgnizationLogin(@RequestBody Orgnization orgnizer) {
+		System.out.println("==="+orgnizer);
+		
+		Orgnization b=orgService.isOrgnizationLogin(orgnizer);
+		
+		if(b!=null) {
+			return b;
+			
+		}
+		else {
+			return b;
+		}
+		
+		
+	}
+	
+	
+	@GetMapping("/counts/{orgId}")
+    public OrgDashboardCountDTO getCounts(@PathVariable int orgId) {
+        return orgService.getDashboardCounts(orgId);
+    }
 	
 
 	

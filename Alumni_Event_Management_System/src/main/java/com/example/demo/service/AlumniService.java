@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Alumni;
+import com.example.demo.model.AlumniDTO;
 import com.example.demo.repository.AlumniRepository;
 
 @Service("alumniService")
@@ -47,6 +48,13 @@ public class AlumniService {
 		return alumniRepo.iseAlumniLogin(alumni);
 	}
 	
+	
+	
+
+    public List<AlumniDTO> getAlumniByDepartment(int deptid) {
+        return alumniRepo.getAlumniByDepartment(deptid);
+    }
+    
 	}
 
 
