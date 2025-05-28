@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.OrgDashboardCountDTO;
 import com.example.demo.model.Orgnization;
 import com.example.demo.repository.OrgnizationRepository;
 @Service("orgService")
@@ -38,4 +39,16 @@ public class OrgnizationService {
 		return orgRepo.isDeleteOrg(id);
 	}
 
+	public Orgnization isOrgnizationLogin(Orgnization orgnizer) {
+		// TODO Auto-generated method stub
+		return orgRepo.isOrgnizationLogin(orgnizer);
+	}
+
+	
+	  public OrgDashboardCountDTO getDashboardCounts(int orgId) {
+	        OrgDashboardCountDTO dto = new OrgDashboardCountDTO();
+	        dto.setUpcomingEventCount(orgRepo.getUpcomingEventCount(orgId));
+	        dto.setAlumniAttendanceCount(orgRepo.getAlumniAttendanceCount(orgId));
+	        return dto;
+	    }
 }

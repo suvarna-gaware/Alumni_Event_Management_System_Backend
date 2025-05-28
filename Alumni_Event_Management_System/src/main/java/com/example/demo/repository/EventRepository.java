@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Event;
+import com.example.demo.model.EventDTO;
 
 @Repository("eventRepo")
 public class EventRepository {
@@ -78,7 +79,9 @@ public class EventRepository {
 	// Update an event
 	public boolean isUpdate(Event event) {
 		String sql = "UPDATE event SET deptid=?, eventname=?, eventdate=?, eventtime=?, location=? WHERE eventid=?";
+		System.out.println("repo"+event);
 		int rows = jdbcTemplate.update(sql, new PreparedStatementSetter() {
+			
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, event.getDeptid());
@@ -87,6 +90,8 @@ public class EventRepository {
 				ps.setString(4, event.getEventtime());
 				ps.setString(5, event.getLocation());
 				ps.setInt(6, event.getEventid());
+				
+				
 			}
 		});
 		return rows > 0;
@@ -137,6 +142,62 @@ public class EventRepository {
 
 		return jdbcTemplate.queryForList(sql, alumniId);
 	}
+	
+	 public List<Event> getEventsByDepartmentName(String deptName) {
+	        String sql = """
+	            SELECT e.eventid, e.deptid, e.eventname, e.eventdate, e.eventtime, 
+	                   e.location, d.deptname
+	            FROM event e
+	            JOIN department d ON e.deptid = d.Did
+	            WHERE d.deptname = ?
+	        """;
+
+	        return jdbcTemplate.query(sql, new Object[]{deptName}, (rs, rowNum) -> {
+	            Event event = new Event();
+	            event.setEventid(rs.getInt("eventid"));
+	            event.setDeptid(rs.getInt("deptid"));
+	            event.setEventname(rs.getString("eventname"));
+	            event.setEventdate(rs.getString("eventdate"));
+	            event.setEventtime(rs.getString("eventtime"));
+	            event.setLocation(rs.getString("location"));
+	            event.setDeptname(rs.getString("deptname"));
+	            return event;
+	        });
+	    }
+	
+	 
+	 public void insertEvent(EventDTO dto) {
+	        String sql = "INSERT INTO event (eventname, location, eventdate, eventtime, deptid) " +
+	                     "VALUES (?, ?, ?, ?, ?)";
+	        System.out.print(dto);	 
+	        jdbcTemplate.update(sql,
+	            dto.getEventname(),
+	            dto.getLocation(),
+	            dto.getEventdate(),
+	            dto.getEventtime(),
+	            dto.getDeptid()
+	          
+	        );
+	    }
+	 
+	 
+	 public List<EventDTO> getEventsByDeptId(int deptid) {
+		    String sql = "SELECT eventid, eventname, location, eventdate, eventtime, deptid FROM event WHERE deptid = ?";
+
+		    return jdbcTemplate.query(sql, new Object[]{deptid}, (rs, rowNum) -> {
+		        EventDTO dto = new EventDTO();
+		        dto.setEventid(rs.getInt("eventid"));        // you forgot this earlier
+		        dto.setEventname(rs.getString("eventname"));
+		        dto.setLocation(rs.getString("location"));
+		        dto.setEventdate(rs.getString("eventdate"));
+		        dto.setEventtime(rs.getString("eventtime"));
+		        dto.setDeptid(rs.getInt("deptid"));
+		        return dto;
+		    });
+		}
+
+
+
 	
 	 
 	

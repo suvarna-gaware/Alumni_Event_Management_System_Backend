@@ -39,4 +39,18 @@ public class EventAttendanceService {
 		return AttendanceRepo.getAttendance();
 	}
 
+//	public List<EventAttendance> getFilteredAlumni(int deptId, int eventId, int passoutYear) {
+//		
+//		return AttendanceRepo.getFilteredAlumni( deptId,eventId,passoutYear) ;
+//	}
+	 public List<EventAttendance> getAlumniAttendanceByDeptYearEvent(int deptId, int passoutYear, int eventId) {
+	        return AttendanceRepo.getAlumniAttendanceByDeptYearEvent(deptId, passoutYear, eventId);
+	    }
+
+	public boolean updateAttendance(List<EventAttendance> ea) {
+		return AttendanceRepo.updateAttendance( ea);
+	
+		
+	}
+
 }

@@ -67,18 +67,23 @@ public class DepartmentRepositorry {
 
 
     
+//    public boolean deleteDepartmentById(int id) {
+//		int value = jdbcTemplate.update("DELETE FROM department WHERE Did = ?", new PreparedStatementSetter() {
+//	        @Override
+//	        public void setValues(PreparedStatement ps) throws SQLException {
+//	            ps.setInt(1, id);
+//	        }
+//	    });
+//	    return value > 0;
+//	
+//		
+//		
+//	}
+    
     public boolean deleteDepartmentById(int id) {
-		int value = jdbcTemplate.update("DELETE FROM department WHERE Did = ?", new PreparedStatementSetter() {
-	        @Override
-	        public void setValues(PreparedStatement ps) throws SQLException {
-	            ps.setInt(1, id);
-	        }
-	    });
-	    return value > 0;
-	
-		
-		
-	}
+        int value = jdbcTemplate.update("DELETE FROM department WHERE Did = ?", ps -> ps.setInt(1, id));
+        return value > 0;
+    }
 	
 
 

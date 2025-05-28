@@ -1,16 +1,20 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
 @Data
 public class EventAttendance {
 	private int eventid;
-	 @JsonProperty("alumniid") 
-	private int Alumniid;
+	 //@JsonProperty("alumniid") 
+	private int alumniid;
 	private int deptid;
 	private String status;
+	
+	//==============================
+	private String name;
+	private String deptname;
+	   private String eventname;
 	
 
 }
